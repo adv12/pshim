@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Management.Automation;
 using SixLabors.ImageSharp;
 
@@ -10,7 +9,7 @@ namespace PShim
     {
 
         [Parameter(ValueFromPipeline = true)]
-        public Image Image { get; set; }
+        public FileImage FileImage { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -18,15 +17,8 @@ namespace PShim
             {
                 ProviderInfo provider;
                 List<string> filePaths = new List<string>();
-                if (ShouldExpandWildcards)
-                {
-                    filePaths.AddRange(GetResolvedProviderPathFromPSPath(path, out provider));
-                }
-                else
-                {
-                    filePaths.Add(SessionState.Path.GetUnresolvedProviderPathFromPSPath(
+                filePaths.Add(SessionState.Path.GetUnresolvedProviderPathFromPSPath(
                         path, out provider, out PSDriveInfo drive));
-                }
                 if (!IsFileSystemPath(provider, path))
                 {
                     continue;
@@ -35,7 +27,7 @@ namespace PShim
                 {
                     if (ShouldProcess(filePath, "Save Image"))
                     {
-                        Image.Save(filePath);
+                        FileImage.Image.Save(filePath);
                     }
                 }
             }

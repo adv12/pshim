@@ -11,22 +11,9 @@ namespace PShim
         protected bool ShouldExpandWildcards { get; set; }
 
         [Parameter(
-                    Position = 0,
-                    Mandatory = true,
-                    ParameterSetName = "Literal")
-                ]
-        [Alias("PSPath")]
-        [ValidateNotNullOrEmpty]
-        public string[] LiteralPath
-        {
-            get => _paths;
-            set => _paths = value;
-        }
-
-        [Parameter(
-            Position = 0,
             Mandatory = true,
             ParameterSetName = "Path",
+            ValueFromPipelineByPropertyName = true,
             ValueFromRemainingArguments = true)
         ]
         [ValidateNotNullOrEmpty]
@@ -38,6 +25,19 @@ namespace PShim
                 _paths = value;
                 ShouldExpandWildcards = true;
             }
+        }
+
+        [Parameter(
+                    Mandatory = true,
+                    ParameterSetName = "Literal",
+                    ValueFromPipelineByPropertyName = true)
+                ]
+        [Alias("PSPath")]
+        [ValidateNotNullOrEmpty]
+        public string[] LiteralPath
+        {
+            get => _paths;
+            set => _paths = value;
         }
 
         protected bool IsFileSystemPath(ProviderInfo provider, string path)

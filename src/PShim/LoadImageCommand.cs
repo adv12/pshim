@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Management.Automation;
 using SixLabors.ImageSharp;
 
@@ -11,7 +10,7 @@ namespace PShim
         protected override void ProcessRecord()
         {
             foreach (string path in Path)
-            {            
+            {
                 ProviderInfo provider;
                 List<string> filePaths = new List<string>();
                 if (ShouldExpandWildcards)
@@ -33,7 +32,7 @@ namespace PShim
                     {
                         using (Image image = Image.Load(filePath))
                         {
-                            WriteObject(image);
+                            WriteObject(new FileImage(filePath, image));
                         }
                     }
                 }

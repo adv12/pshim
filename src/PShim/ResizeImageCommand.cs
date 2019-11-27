@@ -11,7 +11,7 @@ namespace PShim
     {
 
         [Parameter(ValueFromPipeline = true)]
-        public Image Image { get; set; }
+        public FileImage FileImage { get; set; }
 
         [Parameter]
         public int? Width { get; set; }
@@ -33,8 +33,9 @@ namespace PShim
 
         protected override void ProcessRecord()
         {
-            int width = Image.Width;
-            int height = Image.Height;
+            Image image = FileImage.Image;
+            int width = image.Width;
+            int height = image.Height;
             if (Width.HasValue || Height.HasValue)
             {
                 if (Width.HasValue)
@@ -44,12 +45,12 @@ namespace PShim
                     {
                         if (Proportional)
                         {
-                            double factor = (double)width / Image.Width;
-                            height = (int)Math.Round(Image.Height * factor);
+                            double factor = (double)width / image.Width;
+                            height = (int)Math.Round(image.Height * factor);
                         }
                         else if (HeightFactor.HasValue)
                         {
-                            height = (int)Math.Round(Image.Height * HeightFactor.Value);
+                            height = (int)Math.Round(image.Height * HeightFactor.Value);
                         }
                     }
                 }
@@ -60,37 +61,37 @@ namespace PShim
                     {
                         if (Proportional)
                         {
-                            double factor = (double)height / Image.Height;
-                            width = (int)Math.Round(Image.Width * factor);
+                            double factor = (double)height / image.Height;
+                            width = (int)Math.Round(image.Width * factor);
                         }
                         else if (WidthFactor.HasValue)
                         {
-                            width = (int)Math.Round(Image.Width * WidthFactor.Value);
+                            width = (int)Math.Round(image.Width * WidthFactor.Value);
                         }
                     }
                 }
             }
             else if (Factor.HasValue)
             {
-                width = (int)Math.Round(Image.Width * Factor.Value);
-                height = (int)Math.Round(Image.Height * Factor.Value);
+                width = (int)Math.Round(image.Width * Factor.Value);
+                height = (int)Math.Round(image.Height * Factor.Value);
             }
             else if (WidthFactor.HasValue || HeightFactor.HasValue)
             {
                 if (WidthFactor.HasValue)
                 {
-                    width = (int)Math.Round(Image.Width * WidthFactor.Value);
+                    width = (int)Math.Round(image.Width * WidthFactor.Value);
                 }
                 if (HeightFactor.HasValue)
                 {
-                    height = (int)Math.Round(Image.Height * HeightFactor.Value);
+                    height = (int)Math.Round(image.Height * HeightFactor.Value);
                 }
             }
             Size size = new Size(width, height);
-            if (ShouldProcess(Image.ToString(), "Resize Image"))
+            if (ShouldProcess(FileImage.FileInfo.ToString(), "Resize Image"))
             {
-                Image.Mutate(im => im.Resize(size));
-                WriteObject(Image);
+                image.Mutate(im => im.Resize(size));
+                WriteObject(FileImage);
             }
         }
     }
