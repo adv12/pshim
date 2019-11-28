@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Management.Automation;
 using SixLabors.ImageSharp;
 
 namespace PShim
 {
-    [Cmdlet("Load", "Image")]
-    public class LoadImageCommand : PathCmdlet
+    [Cmdlet(VerbsCommon.Get, "ImageMetadata")]
+    public class GetImageMetadataCommand : PathCmdlet
     {
         protected override void ProcessRecord()
         {
@@ -19,7 +20,7 @@ namespace PShim
                     filePaths.AddRange(GetResolvedProviderPathFromPSPath(path, out provider));
                 }
                 else
-                {                  
+                {
                     filePaths.Add(SessionState.Path.GetUnresolvedProviderPathFromPSPath(
                         path, out provider, out PSDriveInfo drive));
                 }
@@ -29,14 +30,23 @@ namespace PShim
                 }
                 foreach (string filePath in filePaths)
                 {
-                    if (ShouldProcess(filePath, "Load Image"))
+                    if (ShouldProcess(filePath, "Get Image Metadata"))
                     {
                         try
                         {
-                            using (Image image = Image.Load(filePath))
+                            IImageInfo info;
+                            using (Stream stream = File.OpenRead(filePath))
                             {
-                                WriteObject(new FileImage(filePath, image));
+                                info = Image.Identify(stream);
                             }
+                            WriteObject(new BasicImageMetadata
+                            {
+                                Directory = System.IO.Path.GetDirectoryName(filePath),
+                                Name = System.IO.Path.GetFileName(filePath),
+                                Width = info.Width,
+                                Height = info.Height,
+                                BitsPerPixel = info.PixelType.BitsPerPixel
+                            });
                         }
                         catch (Exception ex)
                         {

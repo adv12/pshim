@@ -13,6 +13,7 @@ namespace PShim
         [Parameter(
             Mandatory = true,
             ParameterSetName = "Path",
+            ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromRemainingArguments = true)
         ]
@@ -28,10 +29,10 @@ namespace PShim
         }
 
         [Parameter(
-                    Mandatory = true,
-                    ParameterSetName = "Literal",
-                    ValueFromPipelineByPropertyName = true)
-                ]
+            Mandatory = true,
+            ParameterSetName = "Literal",
+            ValueFromPipelineByPropertyName = true)
+        ]
         [Alias("PSPath")]
         [ValidateNotNullOrEmpty]
         public string[] LiteralPath

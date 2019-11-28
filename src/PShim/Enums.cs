@@ -10,4 +10,11 @@ namespace PShim {
         Radian
     }
 
+    public enum FlipAxis
+    {
+        Horizontal,
+        Vertical,
+        Both
+    }
+
 }

@@ -22,6 +22,10 @@ namespace PShim
 
         protected override void ProcessRecord()
         {
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Rotate Image"))
+            {
+                return;
+            }
             float degrees = Value[0];
             if (Unit == AngleUnit.Radian)
             {
@@ -31,11 +35,8 @@ namespace PShim
             {
                 degrees = -degrees;
             }
-            if (ShouldProcess(FileImage.FileInfo.ToString(), "Rotate Image"))
-            {
-                FileImage.Image.Mutate(im => im.Rotate(degrees));
-                WriteObject(FileImage);
-            }
+            FileImage.Image.Mutate(im => im.Rotate(degrees));
+            WriteObject(FileImage);
         }
     }
 }

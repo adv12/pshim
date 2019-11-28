@@ -33,6 +33,10 @@ namespace PShim
 
         protected override void ProcessRecord()
         {
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Resize Image"))
+            {
+                return;
+            }
             Image image = FileImage.Image;
             int width = image.Width;
             int height = image.Height;
@@ -88,11 +92,9 @@ namespace PShim
                 }
             }
             Size size = new Size(width, height);
-            if (ShouldProcess(FileImage.FileInfo.ToString(), "Resize Image"))
-            {
-                image.Mutate(im => im.Resize(size));
-                WriteObject(FileImage);
-            }
+
+            image.Mutate(im => im.Resize(size));
+            WriteObject(FileImage);
         }
     }
 }
