@@ -11,14 +11,21 @@ namespace PShim
         [Parameter(ValueFromPipeline = true)]
         public FileImage FileImage { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromRemainingArguments = true)]
+        [Parameter(Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)
+        ]
         public float[] Value { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public RotationDirection Direction { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public AngleUnit Unit { get; set; }
+
+        [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("Color", "BackgroundColor")]
+        public string Background { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -35,7 +42,8 @@ namespace PShim
             {
                 degrees = -degrees;
             }
-            FileImage.Image.Mutate(im => im.Rotate(degrees));
+            FileImage.Image.Mutate(im => im.Rotate(degrees)
+                .BackgroundColor(PShimUtil.ParseColor(Background)));
             WriteObject(FileImage);
         }
     }

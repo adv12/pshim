@@ -13,20 +13,24 @@ namespace PShim
         [Parameter(ValueFromPipeline = true)]
         public FileImage FileImage { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? Width { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? Height { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? SubtractWidth { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? SubtractHeight { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public AnchorPositionMode Alignment { get; set; } = AnchorPositionMode.Center;
+
+        [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("Color", "BackgroundColor")]
+        public string Background { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -63,7 +67,8 @@ namespace PShim
                     Mode = ResizeMode.BoxPad,
                     Size = new Size(w, h)
                 };
-                image.Mutate(im => im.Resize(options));
+                image.Mutate(im => im.Resize(options)
+                    .BackgroundColor(PShimUtil.ParseColor(Background)));
             }
             if (width < image.Width || height < image.Height)
             {

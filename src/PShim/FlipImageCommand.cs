@@ -9,12 +9,12 @@ namespace PShim
         [Parameter(ValueFromPipeline = true)]
         public FileImage FileImage { get; set; }
 
-        [Parameter]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public FlipAxis Axis { get; set; }
 
         protected override void ProcessRecord()
         {
-            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Rotate Image"))
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Flip Image"))
             {
                 return;
             }
