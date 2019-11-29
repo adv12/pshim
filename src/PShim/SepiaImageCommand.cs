@@ -3,20 +3,20 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("BoxBlur", "Image")]
-    public class BoxBlurImageCommand : RectangleCmdlet
+    [Cmdlet("Sepia", "Image")]
+    public class SepiaImageCommand : RectangleCmdlet
     {
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
-        public int Radius { get; set; } = 7;
+        public float Amount { get; set; } = 1;
 
         protected override void ProcessRecord()
         {
-            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Box Blur Image"))
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Sepia Image"))
             {
                 return;
             }
-            FileImage.Image.Mutate(im => im.BoxBlur(Radius, Rectangle));
+            FileImage.Image.Mutate(im => im.Sepia(Amount, Rectangle));
             WriteObject(FileImage);
         }
     }
