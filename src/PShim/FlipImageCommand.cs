@@ -3,12 +3,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Flip", "Image")]
+    [Cmdlet("Flip", "Image", SupportsShouldProcess = true)]
     public class FlipImageCommand : FileImageCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public FlipAxis Axis { get; set; }
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public FlipAxis[] Axis { get; set; } = { FlipAxis.Horizontal };
 
         protected override void ProcessRecord()
         {
@@ -16,11 +18,12 @@ namespace PShim
             {
                 return;
             }
-            if (Axis == FlipAxis.Horizontal || Axis == FlipAxis.Both)
+            FlipAxis axis = Axis[0];
+            if (axis == FlipAxis.Horizontal || axis == FlipAxis.Both)
             {
                 FileImage.Image.Mutate(im => im.Flip(FlipMode.Horizontal));
             }
-            if (Axis == FlipAxis.Vertical || Axis == FlipAxis.Both)
+            if (axis == FlipAxis.Vertical || axis == FlipAxis.Both)
             {
                 FileImage.Image.Mutate(im => im.Flip(FlipMode.Vertical));
             }

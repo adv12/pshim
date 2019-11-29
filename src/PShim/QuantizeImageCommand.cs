@@ -5,12 +5,14 @@ using SixLabors.ImageSharp.Processing.Processors.Quantization;
 
 namespace PShim
 {
-    [Cmdlet("Quantize", "Image")]
+    [Cmdlet("Quantize", "Image", SupportsShouldProcess = true)]
     public class QuantizeImageCommand : FileImageCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public int MaxColors { get; set; } = 256;
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public int[] MaxColors { get; set; } = { 256 };
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Dither { get; set; }
@@ -22,7 +24,7 @@ namespace PShim
                 return;
             }
             IErrorDiffuser diffuser = Dither ? KnownDiffusers.FloydSteinberg : null;
-            FileImage.Image.Mutate(im => im.Quantize(new WuQuantizer(diffuser, MaxColors)));
+            FileImage.Image.Mutate(im => im.Quantize(new WuQuantizer(diffuser, MaxColors[0])));
             WriteObject(FileImage);
         }
     }

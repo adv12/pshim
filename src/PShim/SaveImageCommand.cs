@@ -4,7 +4,7 @@ using SixLabors.ImageSharp;
 
 namespace PShim
 {
-    [Cmdlet("Save", "Image")]
+    [Cmdlet("Save", "Image", SupportsShouldProcess = true)]
     public class SaveImageCommand : PathCmdlet
     {
 

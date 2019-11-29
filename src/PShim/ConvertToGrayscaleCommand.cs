@@ -3,23 +3,20 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Grayscale", "Image")]
-    public class GrayscaleImageCommand : RectangleCmdlet
+    [Cmdlet("ConvertTo", "Grayscale", SupportsShouldProcess = true)]
+    public class ConvertToGrayscaleCommand : RectangleAmountCmdlet
     {
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public GrayscaleMode Mode { get; set; } = GrayscaleMode.Bt709;
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public float Amount { get; set; } = 1;
-
         protected override void ProcessRecord()
         {
-            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Grayscale Image"))
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Convert to Grayscale"))
             {
                 return;
             }
-            FileImage.Image.Mutate(im => im.Grayscale(Mode, Amount, Rectangle));
+            FileImage.Image.Mutate(im => im.Grayscale(Mode, SingleAmount, Rectangle));
             WriteObject(FileImage);
         }
     }

@@ -6,7 +6,7 @@ using SixLabors.ImageSharp;
 
 namespace PShim
 {
-    [Cmdlet(VerbsCommon.Get, "ImageMetadata")]
+    [Cmdlet(VerbsCommon.Get, "ImageMetadata", SupportsShouldProcess = true)]
     public class GetImageMetadataCommand : PathCmdlet
     {
         protected override void ProcessRecord()

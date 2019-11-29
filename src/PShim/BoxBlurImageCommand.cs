@@ -3,12 +3,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("BoxBlur", "Image")]
+    [Cmdlet("BoxBlur", "Image", SupportsShouldProcess = true)]
     public class BoxBlurImageCommand : RectangleCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public int Radius { get; set; } = 7;
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public int[] Radius { get; set; } = { 7 };
 
         protected override void ProcessRecord()
         {
@@ -16,7 +18,7 @@ namespace PShim
             {
                 return;
             }
-            FileImage.Image.Mutate(im => im.BoxBlur(Radius, Rectangle));
+            FileImage.Image.Mutate(im => im.BoxBlur(Radius[0], Rectangle));
             WriteObject(FileImage);
         }
     }

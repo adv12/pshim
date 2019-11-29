@@ -17,4 +17,16 @@ namespace PShim {
         Both
     }
 
+    public enum Brush
+    {
+        Solid,
+        Horizontal,
+        Vertical,
+        ForwardDiagonal,
+        BackwardDiagonal,
+        Min,
+        Percent10,
+        Percent20
+    }
+
 }

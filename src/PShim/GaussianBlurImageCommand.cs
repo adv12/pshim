@@ -3,12 +3,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("GaussianBlur", "Image")]
+    [Cmdlet("GaussianBlur", "Image", SupportsShouldProcess = true)]
     public class GaussianBlurImageCommand : RectangleCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public float Sigma { get; set; } = 3f;
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public float[] Sigma { get; set; } = { 3f };
 
         protected override void ProcessRecord()
         {
@@ -16,7 +18,7 @@ namespace PShim
             {
                 return;
             }
-            FileImage.Image.Mutate(im => im.GaussianBlur(Sigma, Rectangle));
+            FileImage.Image.Mutate(im => im.GaussianBlur(Sigma[0], Rectangle));
             WriteObject(FileImage);
         }
     }

@@ -7,12 +7,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Frame", "Image")]
+    [Cmdlet("Frame", "Image", SupportsShouldProcess = true)]
     public class FrameImageCommand : FileImageCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public int? All { get; set; }
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public int[] All { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? LeftRight { get; set; }
@@ -47,9 +49,9 @@ namespace PShim
             int padRight = 0;
             int padTop = 0;
             int padBottom = 0;
-            if (All.HasValue)
+            if (All != null && All.Length > 0)
             {
-                padLeft = padRight = padTop = padBottom = All.Value;
+                padLeft = padRight = padTop = padBottom = All[0];
             }
             if (LeftRight.HasValue)
             {

@@ -5,7 +5,7 @@ using SixLabors.ImageSharp;
 
 namespace PShim
 {
-    [Cmdlet("Load", "Image")]
+    [Cmdlet("Load", "Image", SupportsShouldProcess = true)]
     public class LoadImageCommand : PathCmdlet
     {
         protected override void ProcessRecord()

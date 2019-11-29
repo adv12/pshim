@@ -3,12 +3,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("BokehBlur", "Image")]
+    [Cmdlet("BokehBlur", "Image", SupportsShouldProcess = true)]
     public class BokehBlurImageCommand : RectangleCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public int Radius { get; set; } = 32;
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public int[] Radius { get; set; } = { 32 };
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public int Components { get; set; } = 2;
@@ -22,7 +24,7 @@ namespace PShim
             {
                 return;
             }
-            FileImage.Image.Mutate(im => im.BokehBlur(Radius, Components, Gamma, Rectangle));
+            FileImage.Image.Mutate(im => im.BokehBlur(Radius[0], Components, Gamma, Rectangle));
             WriteObject(FileImage);
         }
     }

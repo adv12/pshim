@@ -35,5 +35,14 @@ namespace PShim
                 return new Rectangle(left, top, width, height);
             }
         }
+
+        protected RectangleF RectangleF
+        {
+            get
+            {
+                Rectangle rect = Rectangle;
+                return new RectangleF(rect.Left, rect.Top, rect.Width, rect.Height);
+            }
+        }
     }
 }

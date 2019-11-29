@@ -6,7 +6,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Resize", "Image")]
+    [Cmdlet("Resize", "Image", SupportsShouldProcess = true)]
     public class ResizeImageCommand : FileImageCmdlet
     {
 

@@ -3,12 +3,12 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Polaroid", "Image")]
-    public class PolaroidImageCommand : RectangleCmdlet
+    [Cmdlet("Apply", "PolaroidFilter", SupportsShouldProcess = true)]
+    public class ApplyPolaroidFilterCommand : RectangleCmdlet
     {
         protected override void ProcessRecord()
         {
-            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Polaroid Image"))
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Apply Polaroid Filter"))
             {
                 return;
             }

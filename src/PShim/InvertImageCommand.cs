@@ -3,7 +3,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Invert", "Image")]
+    [Cmdlet("Invert", "Image", SupportsShouldProcess = true)]
     public class InvertImageCommand : RectangleCmdlet
     {
         protected override void ProcessRecord()

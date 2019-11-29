@@ -3,12 +3,14 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Pixelate", "Image")]
+    [Cmdlet("Pixelate", "Image", SupportsShouldProcess = true)]
     public class PixelateImageCommand : RectangleCmdlet
     {
 
-        [Parameter(ValueFromPipelineByPropertyName = true)]
-        public int Size { get; set; } = 2;
+        [Parameter(ValueFromPipelineByPropertyName = true,
+            ValueFromRemainingArguments = true)]
+        [ValidateCount(1, 1)]
+        public int[] Size { get; set; } = { 2 };
 
         protected override void ProcessRecord()
         {
@@ -16,7 +18,7 @@ namespace PShim
             {
                 return;
             }
-            FileImage.Image.Mutate(im => im.Pixelate(Size, Rectangle));
+            FileImage.Image.Mutate(im => im.Pixelate(Size[0], Rectangle));
             WriteObject(FileImage);
         }
     }

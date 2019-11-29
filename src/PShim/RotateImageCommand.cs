@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace PShim
 {
-    [Cmdlet("Rotate", "Image")]
+    [Cmdlet("Rotate", "Image", SupportsShouldProcess = true)]
     public class RotateImageCommand : FileImageCmdlet
     {
 
@@ -12,6 +12,7 @@ namespace PShim
             ValueFromPipelineByPropertyName = true,
             ValueFromRemainingArguments = true)
         ]
+        [ValidateCount(1, 1)]
         public float[] Value { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]

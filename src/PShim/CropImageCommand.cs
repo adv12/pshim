@@ -6,7 +6,7 @@ using SixLabors.Primitives;
 
 namespace PShim
 {
-    [Cmdlet("Crop", "Image")]
+    [Cmdlet("Crop", "Image", SupportsShouldProcess = true)]
     public class CropImageCommand : FileImageCmdlet
     {
 
