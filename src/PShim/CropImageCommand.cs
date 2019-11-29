@@ -7,11 +7,8 @@ using SixLabors.Primitives;
 namespace PShim
 {
     [Cmdlet("Crop", "Image")]
-    public class CropImageCommand : PSCmdlet
+    public class CropImageCommand : FileImageCmdlet
     {
-
-        [Parameter(ValueFromPipeline = true)]
-        public FileImage FileImage { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? Width { get; set; }

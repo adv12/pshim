@@ -7,11 +7,8 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Resize", "Image")]
-    public class ResizeImageCommand : PSCmdlet
+    public class ResizeImageCommand : FileImageCmdlet
     {
-
-        [Parameter(ValueFromPipeline = true)]
-        public FileImage FileImage { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? Width { get; set; }

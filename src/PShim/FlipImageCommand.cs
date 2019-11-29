@@ -4,10 +4,8 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Flip", "Image")]
-    public class FlipImageCommand : PSCmdlet
+    public class FlipImageCommand : FileImageCmdlet
     {
-        [Parameter(ValueFromPipeline = true)]
-        public FileImage FileImage { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public FlipAxis Axis { get; set; }

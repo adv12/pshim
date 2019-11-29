@@ -5,11 +5,8 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Rotate", "Image")]
-    public class RotateImageCommand : PSCmdlet
+    public class RotateImageCommand : FileImageCmdlet
     {
-
-        [Parameter(ValueFromPipeline = true)]
-        public FileImage FileImage { get; set; }
 
         [Parameter(Mandatory = true,
             ValueFromPipelineByPropertyName = true,

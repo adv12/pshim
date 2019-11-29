@@ -8,11 +8,8 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Frame", "Image")]
-    public class FrameImageCommand : PSCmdlet
+    public class FrameImageCommand : FileImageCmdlet
     {
-
-        [Parameter(ValueFromPipeline = true)]
-        public FileImage FileImage { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public int? All { get; set; }

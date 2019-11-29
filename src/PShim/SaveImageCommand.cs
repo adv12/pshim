@@ -8,7 +8,7 @@ namespace PShim
     public class SaveImageCommand : PathCmdlet
     {
 
-        [Parameter(ValueFromPipeline = true)]
+        [Parameter(ValueFromPipeline = true, Mandatory = true)]
         public FileImage FileImage { get; set; }
 
         protected override void ProcessRecord()
