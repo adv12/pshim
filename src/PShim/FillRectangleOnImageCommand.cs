@@ -20,7 +20,7 @@ namespace PShim
 
         protected override void ProcessRecord()
         {
-            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Fill Image"))
+            if (!ShouldProcess(FileImage.FileInfo.ToString(), "Fill Rectangle on Image"))
             {
                 return;
             }
