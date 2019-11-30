@@ -4,7 +4,7 @@ This is a quickly written and poorly tested PowerShell module for image manipula
 
 ### Building and Installing
 
-Right now pshim isn't packaged in any way; you just have to grab source, build, and publish to some location and use Import-Module to load it (or publish it to somewhere PowerShell is already looking).  The Import-Module command will look something like this:
+Right now pshim isn't packaged in any way; you just have to grab source, build, and publish to some location and use Import-Module to load it (or publish it to somewhere PowerShell is already looking for modules).  The Import-Module command will look something like this:
 
 Import-Module -Name <path_to_publish_directory>/Pshim.dll
 
