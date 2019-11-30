@@ -7,7 +7,8 @@ using SixLabors.Primitives;
 
 namespace PShim
 {
-    [Cmdlet("Draw", "Text")]
+    [Cmdlet("Draw", "Text", SupportsShouldProcess = true)]
+    [Alias("Text-Image")]
     public class DrawTextCommand : FileImageCmdlet
     {
         [Parameter(Mandatory = true,
@@ -17,9 +18,11 @@ namespace PShim
         public string[] Text { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("Font")]
         public string FontFamily { get; set; } = "Arial";
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("Style")]
         public FontStyle FontStyle { get; set; } = FontStyle.Regular;
 
         [Parameter(ValueFromPipelineByPropertyName = true)]

@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Adjust", "Contrast", SupportsShouldProcess = true)]
+    [Alias("Contrast-Image")]
     public class AdjustContrastCommand : RectangleAmountCmdlet
     {
         protected override void ProcessRecord()

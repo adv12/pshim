@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("ConvertTo", "Sepia", SupportsShouldProcess = true)]
+    [Alias("Sepia-Image")]
     public class ConvertToSepiaCommand : RectangleAmountCmdlet
     {
         protected override void ProcessRecord()

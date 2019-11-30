@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("ConvertTo", "Grayscale", SupportsShouldProcess = true)]
+    [Alias("Grayscale-Image")]
     public class ConvertToGrayscaleCommand : RectangleAmountCmdlet
     {
 

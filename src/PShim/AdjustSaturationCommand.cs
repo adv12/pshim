@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Adjust", "Saturation", SupportsShouldProcess = true)]
+    [Alias("Saturate-Image", "Saturation-Image")]
     public class AdjustSaturationCommand : RectangleAmountCmdlet
     {
         protected override void ProcessRecord()

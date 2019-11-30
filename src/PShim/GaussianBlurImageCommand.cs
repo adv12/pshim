@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("GaussianBlur", "Image", SupportsShouldProcess = true)]
+    [Alias("Apply-GaussianBlur")]
     public class GaussianBlurImageCommand : RectangleCmdlet
     {
 

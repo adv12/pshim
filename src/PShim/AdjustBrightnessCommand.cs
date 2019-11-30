@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Adjust", "Brightness", SupportsShouldProcess = true)]
+    [Alias("Brightness-Image")]
     public class AdjustBrightnessCommand : RectangleAmountCmdlet
     {
         protected override void ProcessRecord()

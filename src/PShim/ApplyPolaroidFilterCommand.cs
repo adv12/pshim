@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Apply", "PolaroidFilter", SupportsShouldProcess = true)]
+    [Alias("Polaroid-Image")]
     public class ApplyPolaroidFilterCommand : RectangleCmdlet
     {
         protected override void ProcessRecord()

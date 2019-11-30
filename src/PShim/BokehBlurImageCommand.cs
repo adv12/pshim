@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("BokehBlur", "Image", SupportsShouldProcess = true)]
+    [Alias("Apply-BokehBlur")]
     public class BokehBlurImageCommand : RectangleCmdlet
     {
 

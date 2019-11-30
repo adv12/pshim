@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("ConvertTo", "BlackWhite", SupportsShouldProcess = true)]
+    [Alias("BlackWhite-Image")]
     public class ConvertToBlackWhiteCommand : RectangleCmdlet
     {
         protected override void ProcessRecord()

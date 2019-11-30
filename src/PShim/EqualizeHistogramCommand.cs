@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("Equalize", "Histogram", SupportsShouldProcess = true)]
+    [Alias("HistogramEqualization-Image")]
     public class EqualizeHistogramCommand : FileImageCmdlet
     {
         protected override void ProcessRecord()

@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Processing;
 namespace PShim
 {
     [Cmdlet("BoxBlur", "Image", SupportsShouldProcess = true)]
+    [Alias("Apply-BoxBlur")]
     public class BoxBlurImageCommand : RectangleCmdlet
     {
 
