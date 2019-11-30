@@ -65,7 +65,7 @@ namespace PShim
                     Size = new Size(w, h)
                 };
                 image.Mutate(im => im.Resize(options)
-                    .BackgroundColor(PShimUtil.ParseColor(Background)));
+                    .BackgroundColor(this.ParseColor(Background)));
             }
             if (width < image.Width || height < image.Height)
             {

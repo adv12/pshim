@@ -41,7 +41,7 @@ namespace PShim
                 degrees = -degrees;
             }
             FileImage.Image.Mutate(im => im.Rotate(degrees)
-                .BackgroundColor(PShimUtil.ParseColor(Background)));
+                .BackgroundColor(this.ParseColor(Background)));
             WriteObject(FileImage);
         }
     }

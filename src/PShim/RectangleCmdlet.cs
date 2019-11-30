@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
-using SixLabors.Primitives;
 using SixLabors.ImageSharp;
+using SixLabors.Primitives;
 
 namespace PShim
 {

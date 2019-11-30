@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Management.Automation;
 using SixLabors.ImageSharp;
-using SixLabors.Primitives;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
+using SixLabors.Shapes;
 
 namespace PShim
 {
@@ -35,8 +37,13 @@ namespace PShim
         public int? Bottom { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
-        [Alias("Background", "BackgroundColor")]
-        public string Color { get; set; }
+        public string Color { get; set; } = "Black";
+
+        [Parameter(ValueFromPipelineByPropertyName = true)]
+        public string Background { get; set; } = "Black";
+
+        [Parameter(ValueFromPipelineByPropertyName = true)]
+        public Brush Brush { get; set; } = Brush.Solid;
 
         protected override void ProcessRecord()
         {
@@ -67,7 +74,7 @@ namespace PShim
             padBottom = Bottom ?? padBottom;
             int width = image.Width + padLeft + padRight;
             int height = image.Height + padTop + padBottom;
-            Rgba32 frameColor = PShimUtil.ParseColor(Color);
+            Rgba32 frameColor = this.ParseColor(Color);
             using (Image clone = image.Clone(im => im.Flip(FlipMode.None)))
             {
                 try
@@ -76,10 +83,34 @@ namespace PShim
                     int top = padTop;
                     width = Math.Max(width, 1);
                     height = Math.Max(height, 1);
-                    image.Mutate(im => im.Fill(frameColor)
+                    IBrush brush = this.GetBrush(Brush, Color, Background);
+                    image.Mutate(im => im.Fill(Rgba32.White)
                         .Pad(Math.Max(image.Width, width),
-                                Math.Max(image.Height, height), frameColor)
+                                Math.Max(image.Height, height), Rgba32.White)
                         .Crop(width, height));
+                    PathBuilder pathBuilder = new PathBuilder();
+                    List<PointF> outerPoints = new List<PointF>();
+                    outerPoints.Add(new PointF(0, 0));
+                    outerPoints.Add(new PointF(image.Width, 0));
+                    outerPoints.Add(new PointF(image.Width, image.Height));
+                    outerPoints.Add(new PointF(0, image.Height));
+                    outerPoints.Add(new PointF(0, 0));
+                    padLeft = Math.Max(padLeft, 0);
+                    padRight = Math.Max(padRight, 0);
+                    padTop = Math.Max(padTop, 0);
+                    padBottom = Math.Max(padBottom, 0);
+                    List<PointF> innerPoints = new List<PointF>();
+                    innerPoints.Add(new PointF(padLeft, padTop));
+                    innerPoints.Add(new PointF(image.Width - padRight, padTop));
+                    innerPoints.Add(new PointF(image.Width - padRight, image.Height - padBottom));
+                    innerPoints.Add(new PointF(padLeft, image.Height - padBottom));
+                    innerPoints.Add(new PointF(padLeft, padTop));
+                    pathBuilder.StartFigure();
+                    pathBuilder.AddLines(outerPoints);
+                    pathBuilder.StartFigure();
+                    pathBuilder.AddLines(innerPoints);
+                    pathBuilder.CloseAllFigures();
+                    image.Mutate(im => im.Fill(brush, pathBuilder.Build()));
                     if (left + clone.Width > 0 && top + clone.Height > 0)
                     {
                         image.Mutate(im => im.DrawImage(clone, new Point(left, top), 1));

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
@@ -44,7 +43,7 @@ namespace PShim
             pathBuilder.StartFigure();
             pathBuilder.AddLines(points);
             pathBuilder.CloseAllFigures();
-            IBrush brush = PShimUtil.GetBrush(Brush, Color[0], Background);
+            IBrush brush = this.GetBrush(Brush, Color[0], Background);
             FileImage.Image.Mutate(im => im.Fill(brush, pathBuilder.Build()));
             WriteObject(FileImage);
         }

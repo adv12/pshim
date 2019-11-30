@@ -24,7 +24,7 @@ namespace PShim
             {
                 return;
             }
-            IBrush brush = PShimUtil.GetBrush(Brush, Color[0], Background);
+            IBrush brush = this.GetBrush(Brush, Color[0], Background);
             FileImage.Image.Mutate(im => im.Fill(brush, RectangleF));
             WriteObject(FileImage);
         }

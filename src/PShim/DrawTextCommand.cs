@@ -96,7 +96,7 @@ namespace PShim
             FontFamily fontFamily = SystemFonts.Find("Arial");
             Font font = new Font(fontFamily, Size, FontStyle);
             string text = string.Join(Environment.NewLine, Text);
-            PointF dpi = RespectDpi ? PShimUtil.GetDpi(image) : new PointF(72, 72);
+            PointF dpi = RespectDpi ? this.GetDpi(image) : new PointF(72, 72);
             RendererOptions rendererOptions =
                 new RendererOptions(font, dpi.X, dpi.Y);
             SizeF size = TextMeasurer.Measure(text, rendererOptions);
@@ -154,8 +154,8 @@ namespace PShim
                     top = image.Height - (PadBottom ?? 0) - size.Height;
                     break;
             }
-            IBrush brush = PShimUtil.GetBrush(Brush, Color, Background);
-            IPen pen = PShimUtil.GetPen(Pen, PenWidth, PenColor);
+            IBrush brush = this.GetBrush(Brush, Color, Background);
+            IPen pen = this.GetPen(Pen, PenWidth, PenColor);
             try
             {
                 image.Mutate(im => im.DrawText(options, text, font, brush, pen,

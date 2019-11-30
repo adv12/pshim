@@ -1,38 +1,57 @@
 ﻿using System;
+using System.Globalization;
+using System.Management.Automation;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using SixLabors.ImageSharp;
-using SixLabors.Primitives;
+using SixLabors.ImageSharp.Metadata;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Metadata;
+using SixLabors.Primitives;
 
 namespace PShim
 {
-    public class PShimUtil
+    public static class PShimCmdletExtensions
     {
-        public static Rgba32 ParseColor(string color)
+        public static Rgba32 ParseColor(this Cmdlet cmdlet, string color)
         {
+            string originalColor = color;
             if (color == null)
             {
                 return new Rgba32(0, 0, 0);
             }
             if (Regex.IsMatch(color.ToUpper(), @"#(\d|[ABCDEF])+"))
             {
-                return Rgba32.FromHex(color);
+                try
+                {
+                    return Rgba32.FromHex(color);
+                }
+                catch (Exception ex)
+                {
+                    ErrorRecord error = new ErrorRecord(ex, "InvalidHexColor",
+                        ErrorCategory.InvalidArgument, originalColor);
+                    cmdlet.WriteError(error);
+                    return Rgba32.Black;
+                }
+            }
+            if (!Regex.IsMatch(color, "[A-Z][A-Za-z]*"))
+            {
+                TextInfo info = CultureInfo.InvariantCulture.TextInfo;
+                color = info.ToTitleCase(color).Replace(" ", "").Replace("_", "");
             }
             FieldInfo field = typeof(Rgba32).GetField(color, BindingFlags.Static | BindingFlags.Public);
             if (field != null && field.FieldType == typeof(Rgba32))
             {
                 return (Rgba32)field.GetValue(null);
             }
-            return new Rgba32(0, 0, 0);
+            cmdlet.WriteWarning($"Invalid color name {originalColor}; defaulting to Black");
+            return Rgba32.Black;
         }
 
-        public static IBrush GetBrush(Brush brushType, string colorString, string backgroundString)
+        public static IBrush GetBrush(this Cmdlet cmdlet, Brush brushType, string colorString, string backgroundString)
         {
-            Rgba32 rgbaColor = ParseColor(colorString);
-            Rgba32 rgbaBackground = ParseColor(backgroundString);
+            Rgba32 rgbaColor = cmdlet.ParseColor(colorString);
+            Rgba32 rgbaBackground = cmdlet.ParseColor(backgroundString);
             Color color = new Color(rgbaColor);
             Color background = new Color(rgbaBackground);
             switch (brushType)
@@ -56,9 +75,9 @@ namespace PShim
             }
         }
 
-        public static IPen GetPen(Pen penType, float width, string colorString)
+        public static IPen GetPen(this Cmdlet cmdlet, Pen penType, float width, string colorString)
         {
-            Rgba32 rgbaColor = ParseColor(colorString);
+            Rgba32 rgbaColor = cmdlet.ParseColor(colorString);
             Color color = new Color(rgbaColor);
             switch (penType)
             {
@@ -75,7 +94,7 @@ namespace PShim
             }
         }
 
-        public static PointF GetDpi(Image image)
+        public static PointF GetDpi(this Cmdlet cmdlet, Image image)
         {
             ImageMetadata metadata = image.Metadata;
             switch (metadata.ResolutionUnits)
@@ -90,7 +109,7 @@ namespace PShim
                     return new PointF((float)(metadata.HorizontalResolution / 100 * 2.54),
                         (float)(metadata.VerticalResolution / 100 * 2.54));
                 default:
-                    return new PointF(96, 96);
+                    return new PointF(72, 72);
             }
         }
     }
