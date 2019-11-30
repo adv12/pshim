@@ -12,4 +12,4 @@ Make sure you publish rather than just building, so you get all the dependencies
 
 ### Sample usage
 
-Get-ChildItem -Path *.jpg \| Load-Image \| Text-Image "Hello, World!" -FontStyle Bold -Size 24 -Color White -PenColor Black -RespectDpi -Alignment BottomRight -PadRight 50 \| Save-Image -Path { $_.FileInfo.FullName -replace ".jpg","_text.jpg" }
+Get-ChildItem -Path *.jpg \| Load-Image \| Draw-Text "Hello, World!" -FontStyle Bold -Size 24 -Color White -PenColor Black -RespectDpi -Alignment BottomRight -PadRight 50 \| Save-Image -Path { $_.FileInfo.FullName -replace ".jpg","_text.jpg" }
