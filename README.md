@@ -8,7 +8,7 @@ Right now pshim isn't packaged in any way; you just have to grab source, build, 
 
 Import-Module -Name <path_to_publish_directory>/Pshim.dll
 
-Make sure you publish rather than just building, so you get all the dependencies as well.
+Make sure you publish rather than just building, so you get all the dependencies as well as the main DLL.
 
 ### Sample usage
 
