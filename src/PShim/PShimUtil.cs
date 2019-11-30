@@ -2,8 +2,10 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 using SixLabors.ImageSharp;
+using SixLabors.Primitives;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Metadata;
 
 namespace PShim
 {
@@ -51,6 +53,44 @@ namespace PShim
                     return Brushes.Percent20(color, background);
                 default:
                     return Brushes.Solid(color);
+            }
+        }
+
+        public static IPen GetPen(Pen penType, float width, string colorString)
+        {
+            Rgba32 rgbaColor = ParseColor(colorString);
+            Color color = new Color(rgbaColor);
+            switch (penType)
+            {
+                case Pen.Dash:
+                    return Pens.Dash(color, width);
+                case Pen.DashDot:
+                    return Pens.DashDot(color, width);
+                case Pen.DashDotDot:
+                    return Pens.DashDotDot(color, width);
+                case Pen.Dot:
+                    return Pens.Dot(color, width);
+                default:
+                    return Pens.Solid(color, width);
+            }
+        }
+
+        public static PointF GetDpi(Image image)
+        {
+            ImageMetadata metadata = image.Metadata;
+            switch (metadata.ResolutionUnits)
+            {
+                case PixelResolutionUnit.PixelsPerInch:
+                    return new PointF((float)metadata.HorizontalResolution,
+                        (float)metadata.VerticalResolution);
+                case PixelResolutionUnit.PixelsPerCentimeter:
+                    return new PointF((float)(metadata.HorizontalResolution * 2.54),
+                        (float)(metadata.VerticalResolution * 2.54));
+                case PixelResolutionUnit.PixelsPerMeter:
+                    return new PointF((float)(metadata.HorizontalResolution / 100 * 2.54),
+                        (float)(metadata.VerticalResolution / 100 * 2.54));
+                default:
+                    return new PointF(96, 96);
             }
         }
     }

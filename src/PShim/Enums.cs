@@ -29,4 +29,13 @@ namespace PShim {
         Percent20
     }
 
+    public enum Pen
+    {
+        Solid,
+        Dash,
+        DashDot,
+        DashDotDot,
+        Dot
+    }
+
 }

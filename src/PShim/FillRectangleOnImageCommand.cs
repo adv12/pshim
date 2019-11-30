@@ -7,7 +7,7 @@ namespace PShim
     public class FillRectangleOnImageCommand : RectangleCmdlet
     {
 
-        [Parameter(ValueFromPipeline = true,
+        [Parameter(ValueFromPipelineByPropertyName = true,
             ValueFromRemainingArguments = true)]
         [ValidateCount(1, 1)]
         public string[] Color { get; set; } = { "Black" };
