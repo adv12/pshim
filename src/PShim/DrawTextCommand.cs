@@ -23,6 +23,7 @@ namespace PShim
         public FontStyle FontStyle { get; set; } = FontStyle.Regular;
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("FontSize")]
         public float Size { get; set; } = 12;
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
@@ -47,9 +48,11 @@ namespace PShim
         public float? MaxHeight { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("FontColor", "FillColor")]
         public string Color { get; set; } = "Black";
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("FontBackground", "FillBackground")]
         public string Background { get; set; } = "Transparent";
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
@@ -62,6 +65,7 @@ namespace PShim
         public float PenWidth { get; set; } = 1;
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("OutlineColor")]
         public string PenColor { get; set; } = "Transparent";
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
@@ -110,7 +114,7 @@ namespace PShim
                new RendererOptions(font, dpi.X, dpi.Y);
             size = TextMeasurer.Measure(text, rendererOptions);
             font = new Font(font, font.Size * (dpi.X / 72));
-            Console.WriteLine($"{FileImage.FileInfo} ({image.Width}x{image.Height}): DPI({dpi.X}x{dpi.Y}), size({size.Width}x{size.Height})");
+            //Console.WriteLine($"{FileImage.FileInfo} ({image.Width}x{image.Height}): DPI({dpi.X}x{dpi.Y}), size({size.Width}x{size.Height})");
             switch (Alignment)
             {
                 case AnchorPositionMode.BottomLeft:
@@ -156,7 +160,7 @@ namespace PShim
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                //Console.WriteLine(ex);
             }
             WriteObject(FileImage);
         }
