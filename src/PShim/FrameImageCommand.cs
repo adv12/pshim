@@ -87,8 +87,8 @@ namespace PShim
                     image.Mutate(im => im.Fill(Rgba32.White)
                         .Pad(Math.Max(image.Width, width),
                                 Math.Max(image.Height, height), Rgba32.White)
-                        .Opacity(0)
-                        .Crop(width, height));
+                        .Crop(width, height)
+                        .Opacity(0));
                     PathBuilder pathBuilder = new PathBuilder();
                     List<PointF> outerPoints = new List<PointF>();
                     outerPoints.Add(new PointF(0, 0));
